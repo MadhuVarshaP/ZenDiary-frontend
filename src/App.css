@@ -1,38 +1,14 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.neon-effect {
+    color: #fff;
+    text-shadow: 
+      0 0 2px rgba(255, 255, 255, 0.7),
+      0 0 5px #FE8ABB,  /* Primary glow color */
+      0 0 10px #FE8ABB,
+      0 0 15px #FE8ABB,
+      0 0 20px #FE8ABB;
   }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+  
+  .soft-underline {
+    box-shadow: 0 4px 6px -4px rgba(0, 0, 0, 0.1); /* Adjust color and spread for a softer effect */
   }
-  to {
-    transform: rotate(360deg);
-  }
-}
+  
