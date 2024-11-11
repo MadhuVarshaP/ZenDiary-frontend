@@ -32,6 +32,7 @@ const Dashboard = () => {
   const [mood, setMood] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const [affirmation] = useState("You are capable of amazing things!");
+  const [entries, setEntries] = useState([]); // State to store journal entries
 
   const handleMoodSelection = selectedMood => {
     setMood(selectedMood);
@@ -58,7 +59,6 @@ const Dashboard = () => {
     }
   };
 
-  // Toggle the completion of an event
   const toggleCompletion = eventToToggle => {
     setEvents(prevEvents =>
       prevEvents.map(
@@ -68,6 +68,18 @@ const Dashboard = () => {
             : event
       )
     );
+  };
+
+  const addEntry = entryText => {
+    if (entryText.trim()) {
+      setEntries([
+        ...entries,
+        {
+          entry: entryText,
+          date: moment().format("MMMM Do YYYY, h:mm:ss a") // Format for date
+        }
+      ]);
+    }
   };
 
   const moodMessage = {
@@ -81,30 +93,28 @@ const Dashboard = () => {
   return (
     <div className="flex min-h-screen bg-beige p-8">
       <div className="w-full md:w-1/4 p-6">
+        {/* Mood Tracker */}
         <div className="relative w-full p-6 rounded-lg shadow-lg bg-red-100">
           <h3 className="text-lg font-bold text-black mb-4 text-center">
             Mood Tracker
           </h3>
-
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={data}>
               <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
-
               <XAxis
                 dataKey="date"
                 tick={{ fill: "#4A5568" }}
                 axisLine={{ stroke: "#CBD5E0" }}
                 tickLine={false}
-                padding={{ left: 10, right: 10 }} // Adjusted for alignment
+                padding={{ left: 10, right: 10 }}
               />
               <YAxis
                 domain={[1, 5]}
                 tick={{ fill: "#4A5568" }}
                 axisLine={{ stroke: "#CBD5E0" }}
                 tickLine={false}
-                padding={{ top: 10, bottom: 10 }} // Adjusted for alignment
+                padding={{ top: 10, bottom: 10 }}
               />
-
               <Tooltip
                 contentStyle={{
                   backgroundColor: "#F7FAFC",
@@ -114,7 +124,6 @@ const Dashboard = () => {
                 labelStyle={{ color: "#2D3748" }}
                 itemStyle={{ color: "#4A5568" }}
               />
-
               <Legend
                 wrapperStyle={{ color: "#4A5568", fontSize: "14px" }}
                 iconSize={18}
@@ -122,7 +131,6 @@ const Dashboard = () => {
                 align="center"
                 height={36}
               />
-
               <Line
                 type="monotone"
                 dataKey="mood"
@@ -136,27 +144,20 @@ const Dashboard = () => {
         </div>
         <div
           className="mt-8 w-full p-6 rounded-lg bg-cover bg-center text-white relative"
-          style={{
-            backgroundImage: `url(${streaks})` // Ensure `streaks` is a valid URL string
-          }}
+          style={{ backgroundImage: `url(${streaks})` }}
         >
-          {/* Optional overlay for text readability */}
           <div className="absolute inset-0 bg-black opacity-40 rounded-lg" />
-
-          {/* Streak content */}
           <div className="relative z-10 text-center">
             <h4 className="text-2xl font-bold mb-2">Your Streak🔥</h4>
-            <p className="text-4xl font-extrabold">5</p>{" "}
-            {/* Replace 5 with dynamic streak count */}
+            <p className="text-4xl font-extrabold">5</p>
             <p className="text-lg mt-2">Keep it up! You're doing great.</p>
           </div>
         </div>
       </div>
 
-      {/* Left Side (2/3) - Mood Tracker and Affirmation */}
+      {/* Main Section */}
       <div className="w-1/2 p-6 space-y-8">
-        {/* Mood Tracker */}
-        <div className="bg-lavender p-6 rounded-lg shadow-md ">
+        <div className="bg-lavender p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-bold text-black mb-4">
             How are you feeling now?
           </h2>
@@ -187,11 +188,27 @@ const Dashboard = () => {
           </div>
           <img src={image1} alt="" className="w-20 h-20" />
         </div>
+        {/* Journal Entry */}
+        <div className="bg-lightbrown p-6 rounded-lg shadow-md">
+          <h3 className="text-lg font-bold text-black mb-4 text-center">
+            Write Today's Journal
+          </h3>
+          <textarea
+            className="w-full h-32 p-3 rounded-lg resize-none focus:outline-none bg-gray-100"
+            placeholder="Write a short entry for today..."
+            maxLength="300"
+            onBlur={e => addEntry(e.target.value)}
+          />
+          <div className="flex justify-end mt-3">
+            <button className="bg-black px-6 py-2 rounded-2xl text-white font-semibold">
+              Save
+            </button>
+          </div>
+        </div>
       </div>
 
-      {/* Right Side (1/3) - Calendar and Timeline */}
+      {/* Right Section - Calendar and Timeline */}
       <div className="w-1/4 p-6 space-y-8">
-        {/* Calendar and Schedule */}
         <div className="bg-white p-6 rounded-lg shadow-md">
           <h2 className="text-xl font-bold text-black mb-4">
             Progress Calendar
@@ -206,13 +223,53 @@ const Dashboard = () => {
               popup
               eventPropGetter={event => ({
                 style: {
-                  textDecoration: event.completed ? "line-through" : "none", // Apply strike-through if completed
-                  opacity: event.completed ? 0.5 : 1 // Make completed events a bit more transparent
+                  textDecoration: event.completed ? "line-through" : "none",
+                  opacity: event.completed ? 0.5 : 1
                 }
               })}
-              onSelectEvent={toggleCompletion} // Trigger toggle on event click
+              onSelectEvent={toggleCompletion}
               style={{ height: "100%", width: "100%" }}
             />
+          </div>
+        </div>
+
+        {/* Journal Timeline */}
+        <div className="bg-white p-6 rounded-lg shadow-md">
+          <h3 className="text-lg font-bold text-black mb-4 text-center">
+            Journal Timeline
+          </h3>
+          <div className="relative">
+            <div className="absolute left-1/2 transform -translate-x-1/2 w-1 bg-gray-300 h-full" />
+            {entries.map((entry, index) =>
+              <div
+                key={index}
+                className={`mb-8 w-full ${index % 2 === 0
+                  ? "text-left"
+                  : "text-right"}`}
+              >
+                <div
+                  className={`relative p-4 rounded-lg shadow-md bg-gray-100 ${index %
+                    2 ===
+                  0
+                    ? "ml-6"
+                    : "mr-6"}`}
+                >
+                  <span
+                    className={`absolute w-4 h-4 rounded-full bg-pink-500 top-4 ${index %
+                      2 ===
+                    0
+                      ? "-left-2"
+                      : "-right-2"}`}
+                  />
+                  <p>
+                    {entry.entry}
+                  </p>
+                  <p className="text-xs text-gray-500 mt-2">
+                    {entry.date}
+                  </p>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
