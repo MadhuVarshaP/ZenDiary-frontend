@@ -1,14 +1,14 @@
-.neon-effect {
-    color: #fff;
-    text-shadow: 
-      0 0 2px rgba(255, 255, 255, 0.7),
-      0 0 5px #FE8ABB,  /* Primary glow color */
-      0 0 10px #FE8ABB,
-      0 0 15px #FE8ABB,
-      0 0 20px #FE8ABB;
-  }
-  
-  .soft-underline {
+.soft-underline {
     box-shadow: 0 4px 6px -4px rgba(0, 0, 0, 0.1); /* Adjust color and spread for a softer effect */
   }
   
+
+  /* Custom invisible scrollbar */
+.scrollbar-invisible::-webkit-scrollbar {
+  width: 0; /* Remove scrollbar width */
+  height: 0; /* Optional for horizontal scrolling */
+}
+
+.scrollbar-invisible {
+  scrollbar-width: none; /* Firefox-specific: hides the scrollbar */
+}

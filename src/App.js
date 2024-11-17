@@ -6,10 +6,13 @@ import Navbar from './components/Navbar';
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
+import { AuthProvider } from "./components/AuthContext";
 
 function App() {
   return (
    <div className='font-jost bg-beige'>
+        <AuthProvider>
+
      <Router> 
       <Navbar />
       <Routes>
@@ -19,6 +22,8 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />} />
       </Routes>
     </Router>
+    </AuthProvider>
+
     </div>
   );
 }
