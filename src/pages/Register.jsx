@@ -14,25 +14,30 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError("");  // Reset error before submission
-
+    setError(""); // Reset error before submission
+  
     try {
       const response = await axios.post("http://localhost:5000/api/auth/register", {
         email,
         username,
         password,
       });
-
+  
+      // Store token
+      localStorage.setItem("authToken", response.data.token);
+  
       // On successful registration, redirect to login
-      if (response.status === 201) {
-        navigate("/login");  // Navigate to login page after successful registration
+      if (response.status === 200 || response.status === 201) {
+        navigate("/login"); // Navigate to login page
       }
     } catch (err) {
+      // Set error message if any error occurs
       setError(err.response?.data?.message || "An error occurred!");
     } finally {
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="flex h-[90vh]">

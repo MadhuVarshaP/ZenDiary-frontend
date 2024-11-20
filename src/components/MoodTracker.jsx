@@ -17,7 +17,9 @@ const MoodTracker = ({ data }) => {
   useEffect(() => {
     const fetchMoodData = async () => {
       try {
-        const response = await axios.get("/api/mood-data");
+        const response = await axios.get(
+          "http://localhost:5000/api/moods/mood-data"
+        );
         setMoodData(response.data);
       } catch (error) {
         console.error("Error fetching mood data:", error);

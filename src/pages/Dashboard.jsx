@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MoodTracker from "../components/MoodTracker";
 import AffirmationBoard from "../components/AffirmationBoard";
 import JournalEntry from "../components/JournalEntry";
@@ -6,6 +6,7 @@ import ProgressCalendar from "../components/ProgressCalendar";
 import JournalTimeline from "../components/JournalTimeline";
 import MoodSelector from "../components/MoodSelector";
 import streaks from "../assets/streaks.webp";
+import axios from "axios";
 
 const Dashboard = () => {
   const [events, setEvents] = useState([]);
@@ -16,6 +17,21 @@ const Dashboard = () => {
   const handleMoodSelect = mood => {
     console.log("User mood selected:", mood);
   };
+
+  useEffect(() => {
+    const fetchAffirmation = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/api/affirmations/"
+        );
+        setAffirmation(response.data.affirmation || response.data);
+      } catch (error) {
+        console.error("Error fetching affirmation:", error);
+      }
+    };
+
+    fetchAffirmation();
+  }, []);
 
   const handleSelectSlot = slotInfo => {
     const title = prompt("New Event Title");
@@ -46,9 +62,9 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-beige p-3 m-3 h-auto md:h-[90vh]">
+    <div className="grid grid-cols-1 md:grid-cols-12 gap-4 bg-beige p-3 m-3 h-auto md:h-[90vh]">
       {/* Left Column */}
-      <div className="space-y-6 md:col-span-1">
+      <div className="space-y-6 md:col-span-3">
         <MoodTracker onMoodSelect={handleMoodSelect} />
         {/* Streak Section */}
         <div
@@ -64,15 +80,15 @@ const Dashboard = () => {
         </div>
       </div>
 
-      {/* Middle Column */}
-      <div className="space-y-8 md:col-span-1">
+      {/* Middle (Center) Column */}
+      <div className="space-y-8 md:col-span-6">
         <MoodSelector onMoodSelect={handleMoodSelect} />
         <AffirmationBoard affirmation={affirmation} />
         <JournalEntry addEntry={addEntry} />
       </div>
 
       {/* Right Column */}
-      <div className="space-y-8 md:col-span-1">
+      <div className="space-y-8 md:col-span-3">
         <ProgressCalendar
           events={events}
           handleSelectSlot={handleSelectSlot}

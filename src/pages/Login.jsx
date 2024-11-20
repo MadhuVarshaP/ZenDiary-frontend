@@ -24,7 +24,8 @@ const Login = () => {
         email,
         password,
       });
-
+      localStorage.setItem('authToken', response.data.token); // Store token
+      
       if (response.status === 200) {
         login(response.data.user); // Set logged-in state
         navigate("/dashboard");

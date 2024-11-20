@@ -21,6 +21,7 @@ export const AuthProvider = ({ children }) => {
     // You can set this based on your login API response or flow
     localStorage.setItem("user", JSON.stringify({ loggedIn: true }));
     setIsLoggedIn(true);
+    // navigate("/dashboard");
   };
 
   const logout = navigate => {
