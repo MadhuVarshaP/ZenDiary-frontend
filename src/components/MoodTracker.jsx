@@ -8,75 +8,81 @@ import {
   CartesianGrid,
   Tooltip,
   Legend,
-  ResponsiveContainer
+  ResponsiveContainer,
 } from "recharts";
 
-const MoodTracker = ({ data }) => {
+const MoodTracker = () => {
   const [moodData, setMoodData] = useState([]);
 
   useEffect(() => {
     const fetchMoodData = async () => {
+      const token = localStorage.getItem("authToken"); // Retrieve token from localStorage
+      if (!token) {
+        alert("You are not logged in. Please log in to view your mood data.");
+        return;
+      }
+
       try {
-        const response = await axios.get(
-          "http://localhost:5000/api/moods/mood-data"
-        );
-        setMoodData(response.data);
+        const response = await axios.get("http://localhost:5000/api/moods/mood-data", {
+          headers: {
+            Authorization: `Bearer ${token}`, // Attach the token
+          },
+        });
+
+        // Transform data for the chart
+        const formattedData = response.data.map((entry) => ({
+          ...entry,
+          date: new Date(entry.date).toLocaleDateString(), // Format date for display
+        }));
+
+        setMoodData(formattedData);
       } catch (error) {
-        console.error("Error fetching mood data:", error);
+        console.error("Error fetching mood data:", error.response);
+        alert("Error fetching mood data: " + (error.response?.data?.message || error.message));
       }
     };
 
     fetchMoodData();
   }, []);
-  const chartData = {
-    labels: moodData.map(entry => entry.date),
-    datasets: [
-      {
-        label: "Mood Level",
-        data: moodData.map(entry => entry.mood),
-        fill: false,
-        borderColor: "rgba(75, 192, 192, 1)",
-        tension: 0.1
-      }
-    ]
-  };
+
   return (
     <div className="relative w-full p-6 rounded-lg shadow-lg bg-red-100">
-      <h3 className="text-lg font-bold text-black mb-4 text-center">
-        Mood Tracker
-      </h3>
-      <ResponsiveContainer width="100%" height={300}>
-        <LineChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
-          <XAxis
-            dataKey="date"
-            tick={{ fill: "#4A5568" }}
-            axisLine={{ stroke: "#CBD5E0" }}
-            tickLine={false}
-          />
-          <YAxis
-            domain={[1, 5]}
-            tick={{ fill: "#4A5568" }}
-            axisLine={{ stroke: "#CBD5E0" }}
-            tickLine={false}
-          />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: "#F7FAFC",
-              borderColor: "#E2E8F0"
-            }}
-          />
-          <Legend wrapperStyle={{ color: "#4A5568", fontSize: "14px" }} />
-          <Line
-            data={chartData}
-            type="monotone"
-            dataKey="mood"
-            stroke="#FE3C8D"
-            strokeWidth={3}
-            dot={{ r: 6, fill: "#FF7F7F" }}
-          />
-        </LineChart>
-      </ResponsiveContainer>
+      <h3 className="text-lg font-bold text-black mb-4 text-center">Mood Tracker</h3>
+      {moodData.length > 0 ? (
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={moodData}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#E2E8F0" />
+            <XAxis
+              dataKey="date"
+              tick={{ fill: "#4A5568" }}
+              axisLine={{ stroke: "#CBD5E0" }}
+              tickLine={false}
+            />
+            <YAxis
+              domain={[1, 5]}
+              tick={{ fill: "#4A5568" }}
+              axisLine={{ stroke: "#CBD5E0" }}
+              tickLine={false}
+            />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "#F7FAFC",
+                borderColor: "#E2E8F0",
+              }}
+            />
+            <Legend wrapperStyle={{ color: "#4A5568", fontSize: "14px" }} />
+            <Line
+              type="monotone"
+              dataKey="mood"
+              stroke="#FE3C8D"
+              strokeWidth={3}
+              dot={{ r: 6, fill: "#FF7F7F" }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      ) : (
+        <p className="text-center text-gray-500">No mood data available. Start tracking your mood!</p>
+      )}
     </div>
   );
 };

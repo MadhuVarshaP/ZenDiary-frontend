@@ -2,7 +2,6 @@ import React from "react";
 import image1 from "../assets/illustration2.svg";
 import image2 from "../assets/illustration1.png";
 import { cardsData } from "../data/Data";
-import text from "../assets/text.png";
 import { Link } from "react-router-dom";
 const IllustrationCard = ({ title, description, image, bgcolor }) => {
   return (
