@@ -62,28 +62,30 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-12 gap-4 bg-beige p-3 md:h-[90vh] max-h-screen">
-      {/* Left Column */}
-      <div className="space-y-6 md:col-span-3 m-3">
-        <MoodTracker onMoodSelect={handleMoodSelect} />
-        <JournalTimeline entries={entries} />
-      </div>
+    <div className="bg-beige min-h-screen p-3">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+        {/* Left Column */}
+        <div className="space-y-6 md:col-span-3 m-3">
+          <MoodTracker onMoodSelect={handleMoodSelect} />
+          <JournalTimeline entries={entries} />
+        </div>
 
-      {/* Middle (Center) Column */}
-      <div className="space-y-8 md:col-span-6 m-3">
-        <MoodSelector onMoodSelect={handleMoodSelect} />
-        <AffirmationBoard affirmation={affirmation} />
-        <JournalEntry addEntry={addEntry} />
-      </div>
+        {/* Middle (Center) Column */}
+        <div className="space-y-8 md:col-span-6 m-3">
+          <MoodSelector onMoodSelect={handleMoodSelect} />
+          <AffirmationBoard affirmation={affirmation} />
+          <JournalEntry addEntry={addEntry} />
+        </div>
 
-      {/* Right Column */}
-      <div className="space-y-8 md:col-span-3 m-3">
-        <ProgressCalendar
-          events={events}
-          handleSelectSlot={handleSelectSlot}
-          toggleCompletion={toggleCompletion}
-        />
-        <WeatherForecast />
+        {/* Right Column */}
+        <div className="space-y-8 md:col-span-3 m-3">
+          <ProgressCalendar
+            events={events}
+            handleSelectSlot={handleSelectSlot}
+            toggleCompletion={toggleCompletion}
+          />
+          <WeatherForecast />
+        </div>
       </div>
     </div>
   );
