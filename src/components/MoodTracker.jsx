@@ -23,7 +23,7 @@ const MoodTracker = () => {
       }
 
       try {
-        const response = await axios.get("http://localhost:5000/api/moods/mood-data", {
+        const response = await axios.get("https://zendiary-backend.vercel.app/api/moods/mood-data", {
           headers: {
             Authorization: `Bearer ${token}`, // Attach the token
           },

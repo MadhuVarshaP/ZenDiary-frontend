@@ -21,7 +21,7 @@ const Profile = () => {
       }
 
       try {
-        const response = await axios.get("http://localhost:5000/api/profile", {
+        const response = await axios.get("https://zendiary-backend.vercel.app/api/profile", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -63,7 +63,7 @@ const Profile = () => {
 
     try {
       await axios.post(
-        "http://localhost:5000/api/update-profile",
+        "https://zendiary-backend.vercel.app/api/update-profile",
         { profilePicture: newProfilePicture || profilePicture },
         {
           headers: {

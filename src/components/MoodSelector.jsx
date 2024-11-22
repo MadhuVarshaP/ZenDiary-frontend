@@ -21,7 +21,7 @@ const MoodSelector = ({ onMoodSelect }) => {
     try {
       // Make the POST request to save the mood
       await axios.post(
-        "http://localhost:5000/api/moods/save-mood",
+        "https://zendiary-backend.vercel.app/api/moods/save-mood",
         { mood: selectedMood, date: new Date().toISOString() }, // Add date
         {
           headers: {

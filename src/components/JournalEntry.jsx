@@ -14,7 +14,7 @@ const JournalEntry = ({ addEntry }) => {
 
       try {
         const response = await axios.post(
-          "http://localhost:5000/api/journal/add",
+          "https://zendiary-backend.vercel.app/api/journal/add",
           { entry },
           {
             headers: {

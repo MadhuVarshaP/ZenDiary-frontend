@@ -16,7 +16,7 @@ const JournalTimeline = () => {
 
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/journal/entries",
+          "https://zendiary-backend.vercel.app/api/journal/entries",
           {
             headers: {
               Authorization: `Bearer ${token}`

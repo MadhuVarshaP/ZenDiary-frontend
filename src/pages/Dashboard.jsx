@@ -21,7 +21,7 @@ const Dashboard = () => {
     const fetchAffirmation = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:5000/api/affirmations/"
+          "https://zendiary-backend.vercel.app/api/affirmations/"
         );
         setAffirmation(response.data.affirmation || response.data);
       } catch (error) {
