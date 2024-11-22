@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import timer from "../assets/timer.png";
-import { Link, Element } from "react-scroll";
+import { Element } from "react-scroll";
 
 const JournalTimeline = () => {
   const [entries, setEntries] = useState([]);
