@@ -1,4 +1,3 @@
-import cycle from "../assets/cycle.png";
 import book from "../assets/book.png";
 import mood from "../assets/mood.png";
 import mail from "../assets/mail.png";

@@ -5,7 +5,6 @@ import JournalEntry from "../components/JournalEntry";
 import ProgressCalendar from "../components/ProgressCalendar";
 import JournalTimeline from "../components/JournalTimeline";
 import MoodSelector from "../components/MoodSelector";
-import streaks from "../assets/streaks.webp";
 import axios from "axios";
 import WeatherForecast from "../components/WeatherForecast";
 
