@@ -7,7 +7,7 @@ const Navbar = () => {
 
   return (
     <nav className="relative p-4 shadow-xl border-b border-lightbrown h-[10vh]">
-      <div className="max-w-7xl mx-auto flex items-center justify-between w-full relative">
+      <div className="max-w-7xl mx-auto h-full flex items-center justify-between w-full relative">
         {/* Logo Section */}
         <Link to="/" className="text-2xl font-semibold text-black">
           <span className="text-green">Zen</span>
